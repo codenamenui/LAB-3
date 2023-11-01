@@ -87,7 +87,7 @@ public class Game {
         }
     }
 
-    public void fight()
+    public boolean fight()
     {
         this.enemy = this.enemies[rz.nextInt(10)];
         while (true) 
@@ -96,22 +96,56 @@ public class Game {
             System.out.println("Current Enemy:");
             this.enemy.show();
             int action = this.action();
+            boolean turn = false;
             switch (action)
             {
                 case 1:
                     player.attack(null, this.enemy);
+                    turn = true;
                     break;
                 case 2:
+                    int skill = this.chooseSkill();
+                    if (skill == -1)
+                    {
+                        break;
+                    }
+                    player.attack(this.skills[skill], this.enemy);
+                    turn = true;
                     break;
                 case 3:
+                    if (this.changeWeapon())
+                    {
+                        turn = false;
+                    }
                     break;
                 case 4:
+                    this.rest();
+                    turn = false;
                     break;
+                default:
+                    System.out.println("Invalid action!");
+                    break;
+            }
+            if (this.enemy.currentHealth <= 0)
+            {
+                System.out.println("You killed the enemy!");
+                return true;
+            }
+            if (turn)
+            {
+                this.enemy.attack(this.enemy.dmg, this.player);
+                turn = !turn;
+            }
+            if (this.player.currentHealth <= 0)
+            {   
+                System.out.println("You died!");
+                return false;
             }
         }
     }
 
-    public int action() {
+    public int action() 
+    {
         System.out.println("Choose your action!");
         System.out.println("[1] Attack");
         System.out.println("[2] Use Skill");
@@ -121,6 +155,69 @@ public class Game {
         int choice = sc.nextInt();
         sc.nextLine();
         return choice;
+    }
+
+    public int chooseSkill()
+    {
+        int choice, i;
+        do
+        {
+            System.out.println("Choose your skill: ");
+            i = 1;
+            for (Skill skill : this.skills) {
+                System.out.printf("%d. ", i);
+                skill.show();
+                i++;
+            }
+            System.out.printf("%d. Cancel", i);
+            i++;
+            System.out.print("Choice :");
+            choice = sc.nextInt();
+            sc.nextLine();
+        } while (choice > 1 && choice < i);
+        if (choice == i)
+        {
+            return -1;
+        }
+        return choice;
+    }
+
+    public boolean changeWeapon()
+    {
+        int choice, i;
+        do
+        {
+            System.out.println("Choose your weapon: ");
+            i = 1;
+            for (Weapon weapon : this.weapons) {
+                System.out.printf("%d. ", i);
+                weapon.show();
+                i++;
+            }
+            System.out.printf("%d. Cancel", i);
+            i++;
+            System.out.print("Choice :");
+            choice = sc.nextInt();
+            sc.nextLine();
+        } while (choice > 1 && choice < i);
+        if (choice == i)
+        {
+            return false;
+        }
+        this.player.weapon = this.weapons[choice];
+        return true;
+
+    }
+
+    public void rest()
+    {
+        int health = rz.nextInt(this.player.dmg) + 1;
+        System.out.println("You healed for " + health + "!");
+        this.player.currentHealth += health;
+        if (this.player.currentHealth > this.player.totalHealth)
+        {
+            this.player.currentHealth = this.player.totalHealth;
+        }
     }
 
     public void getWeapon()

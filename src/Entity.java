@@ -13,11 +13,11 @@ public class Entity {
     }
 
     void show() {
-        System.out.printf("%s: %d/%d", this.name, this.currentHealth, this.totalHealth);
+        System.out.printf("%s: %d/%d\n", this.name, this.currentHealth, this.totalHealth);
     }
 
     void attack(int dmg, Entity entity) {
         entity.currentHealth -= dmg;
-        System.out.printf("%s has attacked %s for %d damage!", this.name, entity.name, dmg);
+        System.out.printf("%s has attacked %s for %d damage!\n", this.name, entity.name, dmg);
     }
 }

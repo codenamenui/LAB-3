@@ -46,23 +46,23 @@ public class Player extends Entity{
             enemyRoll += this.roller.nextInt(entity.rollDef) + 1; 
         }
         
-        System.err.printf("You rolled a %d against a %d!", playerRoll, enemyRoll);
+        System.err.printf("You rolled a %d against a %d!\n", playerRoll, enemyRoll);
         
         if (playerRoll > enemyRoll)
         {
             if (gameRoll < playerRoll)
             {
-                System.out.println("You landed a successful attack!");
+                System.out.println("You landed a successful attack!\n");
                 super.attack(dmg, entity);
             } 
             else
             {
-                System.out.println("You missed your attack!");
+                System.out.println("You missed your attack!\n");
             }
         }
         else
         {
-            System.out.println("Your enemy resisted the attack!");
+            System.out.println("Your enemy resisted the attack!\n");
         }
     }
 
@@ -89,6 +89,10 @@ public class Player extends Entity{
     @Override
     void show() {
         super.show();
-        System.out.printf("Current Weapon: %s +%d dmg +%d roll", this.weapon, this.weapon.dmg, this.weapon.roll);
+        System.out.printf("Current Weapon: %s +%d dmg +%d roll\ne;\n" + //
+                "                    break;\n" + //
+                "                case 2:\n" + //
+                "                    int skill = this.chooseSkill();\n" + //
+                "                    if (skill == -1", this.weapon, this.weapon.dmg, this.weapon.roll);
     }
 }

@@ -6,4 +6,9 @@ public class Skill extends Buff {
         super(name, dmg, roll);
         this.multiplier = multiplier;
     }
+
+    public void show() 
+    {
+        System.out.printf("%s : %d dmg %d roll %f multiplier\n", this.name, this.dmg, this.roll, this.multiplier);
+    }
 }
